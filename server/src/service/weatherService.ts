@@ -98,7 +98,24 @@ class WeatherService {
     return new Weather(city, date, icon, iconDescription, tempF, windSpeed, humidity);
   }
   // TODO: Complete buildForecastArray method
-  // private buildForecastArray(currentWeather: Weather, weatherData: any[]) {}
+  private buildForecastArray(currentWeather: Weather, weatherData: any[]) {
+    const forecastArray = [];
+
+    forecastArray.push(currentWeather);
+
+    for (let i = 1; i < weatherData.length; i++) {
+      const city = this.cityName;
+      const date = new Date(response.list[0].dt * 1000).toLocaleDateString();
+      const icon = response.list[0].weather[0].icon;
+      const iconDescription = response.list[0].weather[0].description;
+      const tempF = ((response.list[0].main.temp - 273.15) * 9) / 5 + 32;
+      const windSpeed = response.list [0].wind.speed;
+      const humidity = response.list [0].main.humidity;
+
+      forecastArray.push(new Weather(city, date, icon, iconDescription, tempF, windSpeed, humidity));
+    }
+    return forecastArray;
+  }
   // TODO: Complete getWeatherForCity method
   // async getWeatherForCity(city: string) {}
 }
