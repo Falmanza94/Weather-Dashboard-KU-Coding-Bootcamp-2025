@@ -80,9 +80,23 @@ class WeatherService {
   }
   
   // TODO: Create fetchWeatherData method
-  // private async fetchWeatherData(coordinates: Coordinates) {}
+  private async fetchWeatherData(coordinates: Coordinates) {
+    const response = await fetch(this.buildWeatherQuery(coordinates));
+    const data = await response.json();
+    return data;
+  }
   // TODO: Build parseCurrentWeather method
-  // private parseCurrentWeather(response: any) {}
+  private parseCurrentWeather(response: any) {
+    const city = this.cityName;
+    const date = new Date(response.list[0].dt * 1000).toLocaleDateString();
+    const icon = response.list[0].weather[0].icon;
+    const iconDescription = response.list[0].weather[0].description;
+    const tempF = ((response.list[0].main.temp - 273.15) * 9) / 5 + 32;
+    const windSpeed = response.list [0].wind.speed;
+    const humidity = response.list [0].main.humidity;
+
+    return new Weather(city, date, icon, iconDescription, tempF, windSpeed, humidity);
+  }
   // TODO: Complete buildForecastArray method
   // private buildForecastArray(currentWeather: Weather, weatherData: any[]) {}
   // TODO: Complete getWeatherForCity method
