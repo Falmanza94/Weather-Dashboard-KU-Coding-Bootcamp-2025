@@ -105,19 +105,31 @@ class WeatherService {
 
     for (let i = 1; i < weatherData.length; i++) {
       const city = this.cityName;
-      const date = new Date(response.list[0].dt * 1000).toLocaleDateString();
-      const icon = response.list[0].weather[0].icon;
-      const iconDescription = response.list[0].weather[0].description;
-      const tempF = ((response.list[0].main.temp - 273.15) * 9) / 5 + 32;
-      const windSpeed = response.list [0].wind.speed;
-      const humidity = response.list [0].main.humidity;
+      const date = new Date(weatherData[i].dt * 1000).toLocaleDateString();
+      const icon = weatherData[i].weather[0].icon;
+      const iconDescription = weatherData[i].weather[0].description;
+      const tempF = ((weatherData[i].main.temp - 273.15) * 9) / 5 + 32;
+      const windSpeed = weatherData[i].wind.speed;
+      const humidity = weatherData[i].main.humidity;
 
       forecastArray.push(new Weather(city, date, icon, iconDescription, tempF, windSpeed, humidity));
     }
     return forecastArray;
   }
   // TODO: Complete getWeatherForCity method
-  // async getWeatherForCity(city: string) {}
+  async getWeatherForCity(city: string) {
+    this.cityName = city;
+    const coordinates = await this.fetchAndDestructureLocationData();
+
+    if (!coordinates) {
+      throw new Error('Coordinates were not retrievable');
+    }
+    const weatherData = await this.fetchWeatherData(coordinates);
+    const currentWeather = this.parseCurrentWeather(weatherData);
+    const forecastArray = this.buildForecastArray(currentWeather, weatherData.list);
+    console.log({currentWeather, forecastArray});
+    return {currentWeather, forecastArray};
+  }
 }
 
 export default new WeatherService();
