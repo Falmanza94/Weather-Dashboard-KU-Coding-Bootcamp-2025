@@ -69,7 +69,16 @@ class WeatherService {
     return`${this.baseUrl}/data/2.5/forecast?lat=${coordinates.lat}&lon=${coordinates.lon}&appid=${this.apiKey}`;
   }
   // TODO: Create fetchAndDestructureLocationData method
-  // private async fetchAndDestructureLocationData() {}
+  private async fetchAndDestructureLocationData() {
+    const locationData = await this.fetchLocationData(this.buildGeocodeQuery());
+    if (Array.isArray(locationData) && locationData.length > 0) {
+      return this.destructureLocationData(locationData[0]);
+  } else {
+    console.error('Location data not found');
+    return null;
+  }
+  }
+  
   // TODO: Create fetchWeatherData method
   // private async fetchWeatherData(coordinates: Coordinates) {}
   // TODO: Build parseCurrentWeather method
