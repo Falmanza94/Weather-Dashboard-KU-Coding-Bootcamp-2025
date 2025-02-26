@@ -38,8 +38,21 @@ class Weather {
 // TODO: Complete the WeatherService class
 class WeatherService {
   // TODO: Define the baseURL, API key, and city name properties
+  private baseUrl = process.env.API_BASE_URL as string;
+  private apiKey = process.env.API_Key as string;
+  private cityName!: string;
+
   // TODO: Create fetchLocationData method
-  // private async fetchLocationData(query: string) {}
+  private async fetchLocationData(query: string) {
+    try {
+      const response = await fetch(query);
+      const data = await response.json();
+      console.log('Location Data:', data);
+      return data;
+    } catch (error) {
+      console.error('Error fetching the data location', error);
+    }
+  }
   // TODO: Create destructureLocationData method
   // private destructureLocationData(locationData: Coordinates): Coordinates {}
   // TODO: Create buildGeocodeQuery method
