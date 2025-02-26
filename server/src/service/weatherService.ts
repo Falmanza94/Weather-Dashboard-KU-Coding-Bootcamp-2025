@@ -54,11 +54,20 @@ class WeatherService {
     }
   }
   // TODO: Create destructureLocationData method
-  // private destructureLocationData(locationData: Coordinates): Coordinates {}
+  private destructureLocationData(locationData: Coordinates): Coordinates {
+    return {
+      lat: locationData.lat,
+      lon: locationData.lon,
+    };
+  }
   // TODO: Create buildGeocodeQuery method
-  // private buildGeocodeQuery(): string {}
+  private buildGeocodeQuery(): string {
+    return `${this.baseUrl}/geo/1.0/direct?q=${this.cityName}&limit=1&appid=${this.apiKey}`;
+  }
   // TODO: Create buildWeatherQuery method
-  // private buildWeatherQuery(coordinates: Coordinates): string {}
+  private buildWeatherQuery(coordinates: Coordinates): string {
+    return`${this.baseUrl}/data/2.5/forecast?lat=${coordinates.lat}&lon=${coordinates.lon}&appid=${this.apiKey}`;
+  }
   // TODO: Create fetchAndDestructureLocationData method
   // private async fetchAndDestructureLocationData() {}
   // TODO: Create fetchWeatherData method
