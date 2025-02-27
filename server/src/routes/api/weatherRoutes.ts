@@ -5,11 +5,18 @@ import HistoryService from '../../service/historyService.js';
 import WeatherService from '../../service/weatherService.js';
 
 // TODO: POST Request with city name to retrieve weather data
-router.post('/', (req: Request, res: Response) => {
+router.post('/', async (req, res) => {
   const {cityName} = req.body;
-  console.log('Post route', req.body, cityName)
+  console.log('POST route', req.body, cityName)
   
   // TODO: GET weather data from city name
+  try {
+    const weatherData = await WeatherService.getWeatherForCity(cityName);
+    res.json(weatherData);
+  } catch (error) {
+    console.error('Error fetching the weather data:', error);
+    res. status(500).send({error: 'Failed to fetch the weather data'});
+  }
   // TODO: save city to search history
 });
 
